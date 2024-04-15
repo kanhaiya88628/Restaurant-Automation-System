@@ -40,7 +40,7 @@ class Manager:
         bg_img = Label(self.root, image=self.photoimg4)
         bg_img.place(x=0, y=0, relwidth=1, relheight=1)
 
-        # title_lbl=Label(bg_img,text="FACE RECOGNITION ATTENDANCE SOFTWARE",font=("times new roman",35,"bold"),fg="black",bg="black")
+        # title_lbl=Label(bg_img,text="FACE RECOGNITION ATTENDANCE SOFTWARE",font=("times new roman",35,"bold"),fg="black",bg="white")
         # title_lbl.place(x=0,y=50,width=1230,height=45)
 
         # Buttons
@@ -57,7 +57,7 @@ class Manager:
             command=self.manager_window,
             cursor="hand2",
             font=("lucida handwriting", 10),
-            bg="black",
+            bg="white",
             fg="black",
         )
         b1_1.place(x=380, y=220, width=140, height=40)
@@ -75,7 +75,7 @@ class Manager:
             cursor="hand2",
             command=self.waiter_window,
             font=("lucida handwriting", 10),
-            bg="black",
+            bg="white",
             fg="black",
         )
         b1_1.place(x=600, y=220, width=140, height=40)

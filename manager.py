@@ -4,6 +4,7 @@ import tkinter
 from PIL import Image, ImageTk
 import os
 from add_to_menu import MenuUpdation
+from create_account import WaiterCreateAccount
 
 
 class Manager:
@@ -39,7 +40,7 @@ class Manager:
         bg_img = Label(self.root, image=self.photoimg4)
         bg_img.place(x=0, y=0, relwidth=1, relheight=1)
 
-        # title_lbl=Label(bg_img,text="FACE RECOGNITION ATTENDANCE SOFTWARE",font=("times new roman",35,"bold"),fg="black",bg="black")
+        # title_lbl=Label(bg_img,text="FACE RECOGNITION ATTENDANCE SOFTWARE",font=("times new roman",35,"bold"),fg="black",bg="white")
         # title_lbl.place(x=0,y=50,width=1230,height=45)
 
         # Buttons
@@ -56,7 +57,7 @@ class Manager:
             command=self.create_account,
             cursor="hand2",
             font=("lucida handwriting", 10),
-            bg="black",
+            bg="white",
             fg="black",
         )
         b1_1.place(x=180, y=220, width=140, height=40)
@@ -74,7 +75,7 @@ class Manager:
             cursor="hand2",
             command=self.update_account,
             font=("lucida handwriting", 10),
-            bg="black",
+            bg="white",
             fg="black",
         )
         b1_1.place(x=400, y=220, width=140, height=40)
@@ -90,7 +91,7 @@ class Manager:
             cursor="hand2",
             command=self.attend,
             font=("lucida handwriting", 10),
-            bg="black",
+            bg="white",
             fg="black",
         )
         b1_1.place(x=620, y=220, width=140, height=40)
@@ -108,7 +109,7 @@ class Manager:
             cursor="hand2",
             command=self.check_inventory,
             font=("lucida handwriting", 10),
-            bg="black",
+            bg="white",
             fg="black",
         )
         b1_1.place(x=840, y=220, width=140, height=40)
@@ -126,7 +127,7 @@ class Manager:
             cursor="hand2",
             command=self.add_to_menu,
             font=("lucida handwriting", 10),
-            bg="black",
+            bg="white",
             fg="black",
         )
         b1_1.place(x=180, y=410, width=140, height=40)
@@ -144,7 +145,7 @@ class Manager:
             cursor="hand2",
             command=self.update_menu,
             font=("lucida handwriting", 10),
-            bg="black",
+            bg="white",
             fg="black",
         )
         b1_1.place(x=400, y=410, width=140, height=40)
@@ -162,7 +163,7 @@ class Manager:
             cursor="hand2",
             command=self.add_disc,
             font=("lucida handwriting", 10),
-            bg="black",
+            bg="white",
             fg="black",
         )
         b1_1.place(x=620, y=410, width=140, height=40)
@@ -178,7 +179,7 @@ class Manager:
             cursor="hand2",
             command=self.exit,
             font=("lucida handwriting", 10),
-            bg="black",
+            bg="white",
             fg="black",
         )
         b1_1.place(x=840, y=410, width=140, height=40)
@@ -198,7 +199,8 @@ class Manager:
     # Functions
 
     def create_account(self):
-        pass
+        self.new_window = Toplevel(self.root)
+        self.app = WaiterCreateAccount(self.new_window)
 
     def add_to_menu(self):
         self.new_window = Toplevel(self.root)

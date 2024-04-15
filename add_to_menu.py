@@ -1,8 +1,7 @@
 from tkinter import *
 from tkinter import ttk
-from tkcalendar import DateEntry
 from PIL import Image, ImageTk
-import requests
+import pymongo
 import pandas as pd
 from df_to_tkinter_table import DfToTkinterTable
 from df_to_excel_resolver import df_to_excel
@@ -13,6 +12,13 @@ class MenuUpdation:
         self.root = root
         self.root.geometry("1230x590+0+0")
         self.root.title("Add to Menu")
+
+        # MongoDB connection
+        self.client = pymongo.MongoClient(
+            "mongodb+srv://agrawalkanhaiya552:Agrawal88628@cluster0.jcaswif.mongodb.net/"
+        )
+        self.db = self.client["RAS"]
+        self.collection = self.db["menu"]
 
         # Variables
         self.var_item = StringVar()
@@ -228,43 +234,33 @@ class MenuUpdation:
         self.student_table.pack(fill=BOTH, expand=1)
 
     def add_to_menu(self):
-        url = "https://bigquery-cloudbuild-f7q24pru5q-ey.a.run.app/bigquery_operation_results"
-        headers = {"Content-type": "application/json"}
-        _dict = {
-            "query": f"""
-                            INSERT INTO  
-                             `sandbox-381608.ras.menu`
-                            VALUES(
-                             "{self.var_item.get()}",
-                             "{self.var_price.get()}",
-                             "{self.var_disc.get()}",
-                             "{self.var_raw.get()}"
-                            );
-                        """,
-            "gbq_table_id": "sandbox-381608.ras.menu",
+        item = self.var_item.get()
+        price = self.var_price.get()
+        discount = self.var_disc.get()
+        raw_materials = self.var_raw.get()
+
+        menu_item = {
+            "item_name": item,
+            "price": price,
+            "discount": discount,
+            "raw_materials": raw_materials,
         }
-        _response = requests.post(url, headers=headers, json=_dict)
-        _result = _response.json()
-        df = pd.DataFrame.from_records(_result.get("query_results").get("results"))
-        df_to_excel(df)
-        self.new_window = Toplevel(self.root)
-        self.app = DfToTkinterTable(self.new_window)
+
+        # Insert into MongoDB
+        self.collection.insert_one(menu_item)
+
+        # Fetch updated menu from MongoDB
+        self.view_menu()
 
     def view_menu(self):
-        url = "https://bigquery-cloudbuild-f7q24pru5q-ey.a.run.app/bigquery_operation_results"
-        headers = {"Content-type": "application/json"}
-        _dict = {
-            "query": f"""
-                            SELECT *
-                            FROM    
-                             `sandbox-381608.ras.menu`;
-                        """,
-            "gbq_table_id": "sandbox-381608.ras.menu",
-        }
-        _response = requests.post(url, headers=headers, json=_dict)
-        _result = _response.json()
-        df = pd.DataFrame.from_records(_result.get("query_results").get("results"))
+        # Query MongoDB for menu data
+        menu_data = self.collection.find()
+
+        # Convert the cursor to DataFrame
+        df = pd.DataFrame(list(menu_data))
         df_to_excel(df)
+
+        # Display menu in a new window
         self.new_window = Toplevel(self.root)
         self.app = DfToTkinterTable(self.new_window)
 

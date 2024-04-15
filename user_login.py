@@ -2,7 +2,7 @@ from tkinter import *
 from tkinter import ttk
 from PIL import Image, ImageTk
 from tkinter import messagebox
-import requests
+import pymongo
 from take_order import TakeOrder
 
 
@@ -14,9 +14,6 @@ class LoginWindow:
 
         self.username = StringVar()
         self.password = StringVar()
-        self.combo_securityQ = StringVar()
-        self.combo_securityA = StringVar()
-        self.new_pass = StringVar()
 
         img = Image.open(
             r"images/vecteezy_wood-table-top-for-display-with-blurred-restaurant-background_1948406.jpg"
@@ -93,23 +90,21 @@ class LoginWindow:
         login_btn.place(x=70, y=230)
 
     def login(self):
-        if self.user_entry.get == "" or self.pass_entry.get() == "":
+        if self.user_entry.get() == "" or self.pass_entry.get() == "":
             messagebox.showerror("Error", "All fields required.")
         else:
-            url = "https://bigquery-cloudbuild-f7q24pru5q-ey.a.run.app/bigquery_operation_results"
-            headers = {"Content-type": "application/json"}
-            _dict = {
-                "query": f"""
-                            SELECT * FROM `sandbox-381608.jis.registered_users`
-                            WHERE 
-                            email="{self.username.get()}" and 
-                            password="{self.password.get()}"
-                        """,
-                "gbq_table_id": "sandbox-381608.jis.registered_users",
-            }
-            _response = requests.post(url, headers=headers, json=_dict)
-            _result = _response.json()
-            if len(_result.get("query_results").get("results")) > 0:
+            # MongoDB connection
+            client = pymongo.MongoClient(
+                "mongodb+srv://agrawalkanhaiya552:Agrawal88628@cluster0.jcaswif.mongodb.net/"
+            )
+            db = client["RAS"]
+            collection = db["registered_users"]
+
+            # Query MongoDB for user
+            user_query = {"email": self.username.get(), "password": self.password.get()}
+            user = collection.find_one(user_query)
+
+            if user:
                 open_main = messagebox.askyesno("Query", "Access only admin?")
                 if open_main > 0:
                     self.new_window = Toplevel(self.root)

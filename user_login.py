@@ -9,7 +9,7 @@ from take_order import TakeOrder
 class LoginWindow:
     def __init__(self, root):
         self.root = root
-        self.root.title("Login")
+        self.root.title("Waiter Login")
         self.root.geometry("1230x590+0+0")
 
         self.username = StringVar()
@@ -98,19 +98,18 @@ class LoginWindow:
                 "mongodb+srv://agrawalkanhaiya552:Agrawal88628@cluster0.jcaswif.mongodb.net/"
             )
             db = client["RAS"]
-            collection = db["registered_users"]
+            collection = db["waiters"]
 
             # Query MongoDB for user
-            user_query = {"email": self.username.get(), "password": self.password.get()}
+            user_query = {
+                "username": self.username.get(),
+                "password": self.password.get(),
+            }
             user = collection.find_one(user_query)
 
             if user:
-                open_main = messagebox.askyesno("Query", "Access only admin?")
-                if open_main > 0:
-                    self.new_window = Toplevel(self.root)
-                    self.app = TakeOrder(self.new_window)
-                elif not open_main:
-                    return
+                self.new_window = Toplevel(self.root)
+                self.app = TakeOrder(self.new_window)
             else:
                 messagebox.showerror("Error", "Invalid username and password.")
 

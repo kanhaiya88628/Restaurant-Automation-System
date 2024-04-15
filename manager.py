@@ -11,7 +11,7 @@ class Manager:
     def __init__(self, root):
         self.root = root
         self.root.geometry("1230x590+0+0")
-        self.root.title("Face Recognition System")
+        self.root.title("Manager Portal")
         # self.root.wm_iconbitmap("face.ico")
 
         img1 = Image.open(r"images/TLL.jpg")

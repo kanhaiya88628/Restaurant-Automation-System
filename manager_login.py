@@ -3,12 +3,13 @@ from tkinter import ttk
 from PIL import Image, ImageTk
 from tkinter import messagebox
 import pymongo
+from manager import Manager
 
 
 class ManagerLogin:
     def __init__(self, root):
         self.root = root
-        self.root.title("Login")
+        self.root.title("Manager_Login")
         self.root.geometry("1230x590+0+0")
 
         self.username = StringVar()
@@ -102,11 +103,20 @@ class ManagerLogin:
             result = collection.find_one(query)
 
             if result:
-                messagebox.showinfo(
-                    "Success", "Login Successful!"
-                )  # or open the main window
+                messagebox.showinfo("Success", "Login Successful!")
+                # Open Manager window upon successful login
+                self.open_manager_window()
             else:
                 messagebox.showerror("Error", "Invalid username and password.")
+
+    def open_manager_window(self):
+        self.root.withdraw()  # Hide the login window
+        manager_window = Toplevel(self.root)
+        manager_window.title("Manager Portal")
+        manager_window.geometry("1230x590+0+0")
+        manager_window.resizable(False, False)
+
+        manager = Manager(manager_window)
 
 
 if __name__ == "__main__":

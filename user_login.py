@@ -3,7 +3,7 @@ from tkinter import ttk
 from PIL import Image, ImageTk
 from tkinter import messagebox
 import pymongo
-from take_order import TakeOrder
+from waiter import MainMenu
 
 
 class LoginWindow:
@@ -109,7 +109,7 @@ class LoginWindow:
 
             if user:
                 self.new_window = Toplevel(self.root)
-                self.app = TakeOrder(self.new_window)
+                self.app = MainMenu(self.new_window)
             else:
                 messagebox.showerror("Error", "Invalid username and password.")
 

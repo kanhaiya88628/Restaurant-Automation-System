@@ -6,6 +6,10 @@ import os
 from add_to_menu import MenuUpdation
 from create_account import WaiterCreateAccount
 from invoice import InvoiceGenerator
+from update_menu import MenuUpdater
+from inventory_manager import InventoryManagerWindow
+from general_report import GeneralReport
+from update_waiter import EditWaiterWindow
 
 
 class Manager:
@@ -208,20 +212,24 @@ class Manager:
         self.app = MenuUpdation(self.new_window)
 
     def update_account(self):
-        pass
+        self.new_window = Toplevel(self.root)
+        self.app = EditWaiterWindow(self.new_window)
 
     def attend(self):
-        pass
+        self.new_window = Toplevel(self.root)
+        self.app = GeneralReport(self.new_window)
 
     def generate_invoice(self):
         self.new_window = Toplevel(self.root)
         self.app = InvoiceGenerator(self.new_window)
 
     def check_inventory(self):
-        pass
+        self.new_window = Toplevel(self.root)
+        self.app = InventoryManagerWindow(self.new_window)
 
     def update_menu(self):
-        pass
+        self.new_window = Toplevel(self.root)
+        self.app = MenuUpdater(self.new_window)
 
 
 if __name__ == "__main__":

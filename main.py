@@ -2,7 +2,6 @@ from tkinter import *
 from tkinter import ttk
 import tkinter
 from PIL import Image, ImageTk
-import os
 from user_login import LoginWindow
 from manager_login import ManagerLogin
 
@@ -11,8 +10,7 @@ class Manager:
     def __init__(self, root):
         self.root = root
         self.root.geometry("1230x590+0+0")
-        self.root.title("Table Tech")
-        # self.root.wm_iconbitmap('face.ico')
+        self.root.title("Restaurant Automation System")
 
         img1 = Image.open(r"images/TLL.jpg")
         img1 = img1.resize((410, 130), Image.AFFINE)
@@ -40,10 +38,6 @@ class Manager:
         bg_img = Label(self.root, image=self.photoimg4)
         bg_img.place(x=0, y=0, relwidth=1, relheight=1)
 
-        # title_lbl=Label(bg_img,text="FACE RECOGNITION ATTENDANCE SOFTWARE",font=("times new roman",35,"bold"),fg="black",bg="white")
-        # title_lbl.place(x=0,y=50,width=1230,height=45)
-
-        # Buttons
         img5 = Image.open(r"images/StudentDetails.jpg")
         img5 = img5.resize((140, 110), Image.AFFINE)
         self.photoimg5 = ImageTk.PhotoImage(img5)

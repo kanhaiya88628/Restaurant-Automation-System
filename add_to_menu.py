@@ -58,7 +58,7 @@ class MenuUpdation:
 
         title_lbl = tk.Label(
             bg_img,
-            text="TABLE TECH",
+            text="Restaurant Automation System",
             font=("times new roman", 35, "bold"),
             bg="white",
             fg="black",

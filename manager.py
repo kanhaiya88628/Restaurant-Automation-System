@@ -5,6 +5,7 @@ from PIL import Image, ImageTk
 import os
 from add_to_menu import MenuUpdation
 from create_account import WaiterCreateAccount
+from invoice import InvoiceGenerator
 
 
 class Manager:
@@ -154,14 +155,14 @@ class Manager:
         img11 = img11.resize((140, 110), Image.AFFINE)
         self.photoimg11 = ImageTk.PhotoImage(img11)
         b1 = Button(
-            bg_img, image=self.photoimg11, cursor="hand2", command=self.add_disc
+            bg_img, image=self.photoimg11, cursor="hand2", command=self.generate_invoice
         )
         b1.place(x=620, y=310, width=140, height=100)
         b1_1 = Button(
             bg_img,
-            text="Add Discount",
+            text="Generate Invoice",
             cursor="hand2",
-            command=self.add_disc,
+            command=self.generate_invoice,
             font=("lucida handwriting", 10),
             bg="white",
             fg="black",
@@ -212,8 +213,9 @@ class Manager:
     def attend(self):
         pass
 
-    def add_disc(self):
-        pass
+    def generate_invoice(self):
+        self.new_window = Toplevel(self.root)
+        self.app = InvoiceGenerator(self.new_window)
 
     def check_inventory(self):
         pass

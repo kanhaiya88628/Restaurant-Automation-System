@@ -1,6 +1,7 @@
 from tkinter import *
 from PIL import Image, ImageTk
 from tkinter import ttk
+from tkinter import messagebox
 import pymongo
 
 
@@ -16,6 +17,7 @@ class TakeOrder:
         )
         self.db = self.client["RAS"]
         self.collection = self.db["menu"]
+        self.order_collection = self.db["orders"]  # Collection for storing orders
 
         # Load background image
         img = Image.open(
@@ -120,10 +122,18 @@ class TakeOrder:
 
     def place_order(self):
         # Get all items and quantities from the cache table and process the order
+        order_items = []
         for child in self.cache_table.get_children():
             item = self.cache_table.item(child)["values"][0]
             quantity = self.cache_table.item(child)["values"][1]
+            order_items.append({"item": item, "quantity": quantity})
             # Here you can add your code to process the order, e.g., send it to a database
+        # Save the order to MongoDB
+        if order_items:
+            self.order_collection.insert_one({"order_items": order_items})
+            messagebox.showinfo("Success", "Order placed successfully!")
+        else:
+            messagebox.showwarning("Warning", "No items in the order!")
         # Clear the cache table after placing the order
         self.cache_table.delete(*self.cache_table.get_children())
 

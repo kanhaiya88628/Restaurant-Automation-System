@@ -17,7 +17,6 @@ class Manager:
         self.root = root
         self.root.geometry("1230x590+0+0")
         self.root.title("Manager Portal")
-        # self.root.wm_iconbitmap("face.ico")
 
         img1 = Image.open(r"images/TLL.jpg")
         img1 = img1.resize((410, 130), Image.AFFINE)
@@ -45,10 +44,6 @@ class Manager:
         bg_img = Label(self.root, image=self.photoimg4)
         bg_img.place(x=0, y=0, relwidth=1, relheight=1)
 
-        # title_lbl=Label(bg_img,text="FACE RECOGNITION ATTENDANCE SOFTWARE",font=("times new roman",35,"bold"),fg="black",bg="white")
-        # title_lbl.place(x=0,y=50,width=1230,height=45)
-
-        # Buttons
         img5 = Image.open(r"images/StudentDetails.jpg")
         img5 = img5.resize((140, 110), Image.AFFINE)
         self.photoimg5 = ImageTk.PhotoImage(img5)
@@ -189,9 +184,6 @@ class Manager:
         )
         b1_1.place(x=840, y=410, width=140, height=40)
 
-    # def open_img(self):
-    #    os.startfile("data")
-
     def exit(self):
         self.exit = tkinter.messagebox.askyesno(
             "Exit", "Are you sure you want to exit?", parent=self.root
@@ -200,8 +192,6 @@ class Manager:
             self.root.destroy()
         else:
             return
-
-    # Functions
 
     def create_account(self):
         self.new_window = Toplevel(self.root)

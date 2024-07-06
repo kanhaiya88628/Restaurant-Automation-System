@@ -20,9 +20,6 @@ class PaymentWindow:
         bg_img = Label(self.root, image=self.photoimg)
         bg_img.place(x=0, y=0, relwidth=1, relheight=1)
 
-        # self.root2 = Frame(self.root, bd=2, bg="black")
-        # self.root2.place(x=484, y=115, width=350, height=380)
-
         img1 = Image.open(r"images/qr.png")
         img1 = img1.resize((279, 279), Image.AFFINE)
         self.photoimg1 = ImageTk.PhotoImage(img1)

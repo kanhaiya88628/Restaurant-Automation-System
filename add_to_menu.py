@@ -2,9 +2,6 @@ import tkinter as tk
 from tkinter import ttk
 from PIL import Image, ImageTk
 import pymongo
-import pandas as pd
-from df_to_tkinter_table import DfToTkinterTable
-from df_to_excel_resolver import df_to_excel
 
 
 class MenuUpdation:
@@ -13,14 +10,12 @@ class MenuUpdation:
         self.root.geometry("1230x590+0+0")
         self.root.title("Add to Menu")
 
-        # MongoDB connection
         self.client = pymongo.MongoClient(
             "mongodb+srv://agrawalkanhaiya552:Agrawal88628@cluster0.jcaswif.mongodb.net/"
         )
         self.db = self.client["RAS"]
         self.collection = self.db["menu"]
 
-        # Variables
         self.var_item = tk.StringVar()
         self.var_disc = tk.StringVar()
         self.var_price = tk.StringVar()
@@ -68,8 +63,6 @@ class MenuUpdation:
         main_frame = tk.Frame(bg_img, bd=2, bg="white")
         main_frame.place(x=10, y=55, width=1200, height=390)
 
-        # label frames
-        # left
         left_frame = tk.LabelFrame(
             main_frame,
             bd=2,
@@ -151,7 +144,7 @@ class MenuUpdation:
             command=self.view_menu,
             width=15,
             font=("times new roman", 13),
-            bg="darkblue",
+            bg="white",
             fg="black",
         )
         view_btn.grid(row=3, column=2)
@@ -162,7 +155,7 @@ class MenuUpdation:
             command=self.reset_data,
             width=15,
             font=("times new roman", 13),
-            bg="darkblue",
+            bg="white",
             fg="black",
         )
         reset_btn.grid(row=8, column=2)
@@ -246,21 +239,17 @@ class MenuUpdation:
             "raw_materials": raw_materials,
         }
 
-        # Insert into MongoDB
         self.collection.insert_one(menu_item)
 
-        # Fetch updated menu from MongoDB and update the table
         self.view_menu()
 
     def view_menu(self):
-        # Clear existing entries in the table
+
         for row in self.menu_table.get_children():
             self.menu_table.delete(row)
 
-        # Query MongoDB for menu data
         menu_data = self.collection.find()
 
-        # Populate the table with menu data
         for item in menu_data:
             self.menu_table.insert(
                 "",
@@ -273,7 +262,6 @@ class MenuUpdation:
                 ),
             )
 
-    # Reset Function
     def reset_data(self):
         self.var_item.set("")
         self.var_disc.set("")

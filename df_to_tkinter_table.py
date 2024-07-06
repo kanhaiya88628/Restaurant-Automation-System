@@ -12,28 +12,23 @@ class DfToTkinterTable:
         self.root.pack_propagate(False)
         self.root.resizable(0, 0)
 
-        # MongoDB connection
         self.client = pymongo.MongoClient(
             "mongodb+srv://agrawalkanhaiya552:Agrawal88628@cluster0.jcaswif.mongodb.net/"
         )
         self.db = self.client["RAS"]
         self.collection = self.db["menu"]
 
-        # Frame for TreeView
         frame1 = tk.LabelFrame(root, text="Menu Data")
         frame1.place(height=250, width=500)
 
-        # Frame for open file dialog
         file_frame = tk.LabelFrame(root, text="Open File")
         file_frame.place(height=100, width=400, rely=0.65, relx=0)
 
-        # Buttons
         button1 = tk.Button(
             file_frame, text="Load Data", command=lambda: self.Load_menu_data()
         )
         button1.place(rely=0.65, relx=0.50)
 
-        # The file/file path text
         self.label_file = ttk.Label(file_frame, text="MongoDB")
         self.label_file.place(rely=0, relx=0)
 
@@ -51,10 +46,8 @@ class DfToTkinterTable:
     def Load_menu_data(self):
         """Load data from MongoDB collection 'menu' into the Treeview"""
         try:
-            # Query MongoDB for menu data
             menu_data = self.collection.find()
 
-            # Convert cursor to DataFrame
             df = pd.DataFrame(list(menu_data))
 
             self.clear_data()

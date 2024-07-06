@@ -13,7 +13,6 @@ class InvoiceGenerator:
         self.root.title("Invoice Generator")
         self.root.geometry("400x200")
 
-        # Connect to MongoDB
         self.client = pymongo.MongoClient(
             "mongodb+srv://agrawalkanhaiya552:Agrawal88628@cluster0.jcaswif.mongodb.net/"
         )
@@ -21,10 +20,8 @@ class InvoiceGenerator:
         self.orders_collection = self.db["orders"]
         self.menu_collection = self.db["menu"]
 
-        # Retrieve order IDs from MongoDB
         self.order_ids = self.get_order_ids()
 
-        # Dropdown menu to select order ID
         self.selected_order_id = StringVar()
         order_id_label = Label(self.root, text="Select Order ID:")
         order_id_label.grid(row=0, column=0, padx=10, pady=10)
@@ -32,42 +29,36 @@ class InvoiceGenerator:
             self.root,
             textvariable=self.selected_order_id,
             values=self.order_ids,
-            width=30,  # Set the width of the dropdown field
+            width=30,
         )
         self.order_id_dropdown.grid(row=0, column=1, padx=10, pady=10)
         self.order_id_dropdown.bind("<<ComboboxSelected>>", self.order_id_selected)
 
-        # Button to generate invoice
         generate_btn = Button(
             self.root, text="Generate Invoice", command=self.generate_invoice
         )
         generate_btn.grid(row=1, column=0, columnspan=2, pady=10)
 
     def get_order_ids(self):
-        # Query MongoDB for order IDs
         order_ids = [
             str(order["_id"]) for order in self.orders_collection.find({}, {"_id": 1})
         ]
         return order_ids
 
     def order_id_selected(self, event):
-        # Callback function when order ID is selected
         pass
 
     def generate_invoice(self):
-        # Generate invoice based on the selected order ID
         selected_order_id = self.selected_order_id.get()
-        print("Selected Order ID:", selected_order_id)  # Debugging statement
+        print("Selected Order ID:", selected_order_id)
 
         if selected_order_id:
-            # Retrieve order details from MongoDB based on the selected order ID and generate the invoice
             order_details = self.orders_collection.find_one(
                 {"_id": ObjectId(selected_order_id)}
             )
-            print("Order Details:", order_details)  # Debugging statement
+            print("Order Details:", order_details)
 
             if order_details:
-                # Here you can generate the invoice using the order details
                 self.generate_pdf_invoice(order_details, selected_order_id)
                 print("Invoice generated for Order ID:", selected_order_id)
             else:
@@ -76,7 +67,6 @@ class InvoiceGenerator:
             print("Please select an Order ID.")
 
     def generate_pdf_invoice(self, order_details, order_id):
-        # Generate PDF invoice
         pdf_filename = f"Invoice_{order_id}.pdf"
         doc = SimpleDocTemplate(pdf_filename, pagesize=letter)
         table_data = [["Item", "Quantity", "Price"]]

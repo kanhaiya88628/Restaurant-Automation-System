@@ -93,14 +93,12 @@ class LoginWindow:
         if self.user_entry.get() == "" or self.pass_entry.get() == "":
             messagebox.showerror("Error", "All fields required.")
         else:
-            # MongoDB connection
             client = pymongo.MongoClient(
                 "mongodb+srv://agrawalkanhaiya552:Agrawal88628@cluster0.jcaswif.mongodb.net/"
             )
             db = client["RAS"]
             collection = db["waiters"]
 
-            # Query MongoDB for user
             user_query = {
                 "username": self.username.get(),
                 "password": self.password.get(),

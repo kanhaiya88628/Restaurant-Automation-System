@@ -17,9 +17,8 @@ class TakeOrder:
         )
         self.db = self.client["RAS"]
         self.collection = self.db["menu"]
-        self.order_collection = self.db["orders"]  # Collection for storing orders
+        self.order_collection = self.db["orders"]
 
-        # Load background image
         img = Image.open(
             "images/vecteezy_wood-table-top-for-display-with-blurred-restaurant-background_1948406.jpg"
         )
@@ -28,11 +27,9 @@ class TakeOrder:
         bg_img = Label(self.root, image=self.photoimg)
         bg_img.place(x=0, y=0, relwidth=1, relheight=1)
 
-        # Frame to hold order entry elements
         self.root2 = Frame(self.root, bd=2, bg="black")
         self.root2.place(x=484, y=115, width=500, height=380)
 
-        # Label and dropdown for item selection
         item_label = Label(
             self.root2,
             text="Select Item:",
@@ -51,10 +48,8 @@ class TakeOrder:
         )
         self.item_dropdown.grid(row=0, column=1, padx=2, pady=10, sticky=W)
 
-        # Retrieve items from MongoDB collection and populate the dropdown
         self.populate_menu()
 
-        # Entry for order quantity
         quantity_label = Label(
             self.root2,
             text="Quantity:",
@@ -68,7 +63,6 @@ class TakeOrder:
         )
         self.quantity_entry.grid(row=1, column=1, padx=2, pady=10, sticky=W)
 
-        # Button to add item to cache table
         add_btn = Button(
             self.root2,
             text="Add to Order",
@@ -80,7 +74,6 @@ class TakeOrder:
         )
         add_btn.grid(row=2, column=1, padx=10, pady=10)
 
-        # Button to place order
         place_order_btn = Button(
             self.root2,
             text="Place Order",
@@ -92,7 +85,6 @@ class TakeOrder:
         )
         place_order_btn.grid(row=3, column=1, padx=10, pady=10)
 
-        # Table to display cached orders
         self.cache_table = ttk.Treeview(
             self.root2, columns=("item", "quantity"), selectmode="browse"
         )
@@ -103,38 +95,29 @@ class TakeOrder:
         self.cache_table.grid(row=4, columnspan=2, padx=10, pady=10)
 
     def populate_menu(self):
-        # Clear any existing values in the dropdown
         self.item_dropdown["values"] = []
-        # Retrieve items from MongoDB collection
         menu_data = self.collection.find()
-        # Populate the dropdown with item names
         items = [item["item_name"] for item in menu_data]
         self.item_dropdown["values"] = items
-        # Set default selection
         if items:
             self.item_dropdown.current(0)
 
     def add_to_order(self):
         item = self.selected_item.get()
         quantity = self.quantity_entry.get()
-        # Add the item and quantity to the cache table
         self.cache_table.insert("", "end", values=(item, quantity))
 
     def place_order(self):
-        # Get all items and quantities from the cache table and process the order
         order_items = []
         for child in self.cache_table.get_children():
             item = self.cache_table.item(child)["values"][0]
             quantity = self.cache_table.item(child)["values"][1]
             order_items.append({"item": item, "quantity": quantity})
-            # Here you can add your code to process the order, e.g., send it to a database
-        # Save the order to MongoDB
         if order_items:
             self.order_collection.insert_one({"order_items": order_items})
             messagebox.showinfo("Success", "Order placed successfully!")
         else:
             messagebox.showwarning("Warning", "No items in the order!")
-        # Clear the cache table after placing the order
         self.cache_table.delete(*self.cache_table.get_children())
 
 

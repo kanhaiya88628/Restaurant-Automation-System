@@ -8,25 +8,21 @@ class InventoryManagerWindow:
         self.root.title("Inventory Manager")
         self.root.geometry("300x200")
 
-        # Add Button
         self.add_btn = Button(
             root, text="Add Inventory", command=self.open_add_inventory
         )
         self.add_btn.pack(pady=10)
 
-        # Edit Button
         self.edit_btn = Button(
             root, text="Edit Inventory", command=self.open_edit_inventory
         )
         self.edit_btn.pack(pady=10)
 
-        # Delete Button
         self.delete_btn = Button(
             root, text="Delete Inventory", command=self.open_delete_inventory
         )
         self.delete_btn.pack(pady=10)
 
-        # View Button
         self.view_btn = Button(
             root, text="View Inventory", command=self.open_view_inventory
         )

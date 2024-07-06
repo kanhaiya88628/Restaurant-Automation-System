@@ -104,13 +104,12 @@ class ManagerLogin:
 
             if result:
                 messagebox.showinfo("Success", "Login Successful!")
-                # Open Manager window upon successful login
                 self.open_manager_window()
             else:
                 messagebox.showerror("Error", "Invalid username and password.")
 
     def open_manager_window(self):
-        self.root.withdraw()  # Hide the login window
+        self.root.withdraw()
         manager_window = Toplevel(self.root)
         manager_window.title("Manager Portal")
         manager_window.geometry("1230x590+0+0")

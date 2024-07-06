@@ -9,17 +9,14 @@ class GeneralReport:
         self.root.title("General Report")
         self.root.geometry("400x300")
 
-        # Connect to MongoDB
         self.client = pymongo.MongoClient(
             "mongodb+srv://agrawalkanhaiya552:Agrawal88628@cluster0.jcaswif.mongodb.net/"
         )
         self.db = self.client["RAS"]
         self.order_collection = self.db["orders"]
 
-        # Fetch order data
         self.order_data = self.fetch_order_data()
 
-        # Table to display general report
         self.report_table = ttk.Treeview(self.root)
         self.report_table["columns"] = ("item_name", "num_orders")
         self.report_table.heading("item_name", text="Item Name")
@@ -28,11 +25,9 @@ class GeneralReport:
         self.report_table.column("num_orders", width=150)
         self.report_table.grid(row=0, column=0, padx=10, pady=10)
 
-        # Populate the table with data
         self.populate_report()
 
     def fetch_order_data(self):
-        # Fetch order data from MongoDB
         order_data = self.order_collection.aggregate(
             [
                 {"$unwind": "$order_items"},
@@ -42,7 +37,6 @@ class GeneralReport:
         return order_data
 
     def populate_report(self):
-        # Populate the table with data
         for row in self.order_data:
             self.report_table.insert("", "end", values=(row["_id"], row["count"]))
 

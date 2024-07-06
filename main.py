@@ -83,8 +83,6 @@ class Manager:
         else:
             return
 
-    # Functions
-
     def manager_window(self):
         self.new_window = Toplevel(self.root)
         self.app = ManagerLogin(self.new_window)
